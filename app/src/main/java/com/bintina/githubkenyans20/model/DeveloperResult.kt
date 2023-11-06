@@ -7,7 +7,7 @@ data class DeveloperResult(
     @SerializedName("incomplete_results")
     val incompleteResults: Boolean?,
     @SerializedName("items")
-    val items: List<Developer?>?,
+    val items: List<Developer?>,
     @SerializedName("total_count")
     val totalCount: Int?
 )
