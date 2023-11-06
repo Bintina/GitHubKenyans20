@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitHub Kenyans 2.0</string>
+    <string name="username_placeholder">User Name</string>
+    <string name="link_placeholder">User Link</string>
 </resources>
