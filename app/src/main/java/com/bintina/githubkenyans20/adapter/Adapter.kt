@@ -19,7 +19,13 @@ class Adapter():RecyclerView.Adapter<Adapter.ItemViewHolder>() {
     override fun getItemCount(): Int = developerList.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(developerList[position])
+        val developer: Developer? = developerList[position]
+
+        holder.bind(developer)
+val clickedHolder = holder
+
+            holder.itemView.setOnClickListener { listener.openDetails(developer) }
+             view.tvLink.setOnClickListener { listener.openLink(developer?.htmlUrl) }
 
     }
 
@@ -29,11 +35,11 @@ class Adapter():RecyclerView.Adapter<Adapter.ItemViewHolder>() {
              Glide.with(view.tvAvatar.context)
                  .load(developer?.avatarUrl)
                  .placeholder(R.drawable.ic_launcher_foreground)
-                 .centerCrop()
                  .into(view.tvAvatar)
 
              //Username View
              view.tvUsername.text = developer?.login
+
 
              //Link View
              view.tvLink.text = developer?.htmlUrl
