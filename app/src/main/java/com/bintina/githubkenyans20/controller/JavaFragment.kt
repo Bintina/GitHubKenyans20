@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bintina.githubkenyans20.adapter.Adapter
@@ -33,13 +34,7 @@ class JavaFragment : Fragment(), OnDeveloperClickedListener {
         initializeViews()
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val result = when (CURRENT_JAVA_STATE) {
-                0 -> DataSource.loadNairobiJavaDevelopers()
-                1 -> DataSource.loadMombasaJavaDevelopers()
-                else -> {
-                    null
-                }
-            }
+            val result = DataSource.loadJavaDevelopers()
 
             withContext(Dispatchers.Main) {
                 if (result != null) {

@@ -2,32 +2,29 @@ package com.bintina.githubkenyans20.data
 
 import android.util.Log
 import com.bintina.githubkenyans20.model.Developer
-import com.bintina.githubkenyans20.mombasa.api.ApiService
+import com.bintina.githubkenyans20.util.MyApp.Companion.CURRENT_JAVA_STATE
 
 object DataSource {
 
-    suspend fun loadMombasaJavaDevelopers(): List<Developer?>? {
-        val apiCall = ApiService.create()
+    suspend fun loadJavaDevelopers(): List<Developer?>? {
+        val apiCall = com.bintina.githubkenyans20.api.java.JavaService.create()
 
-        val response = try {
-            apiCall.getMombasaJavaDevelopers()
-        } catch(e: Exception){
-            Log.e("MombasaDataSourceLog","Error is ${e.message.toString()}")
-            null
+        val response = when (CURRENT_JAVA_STATE){
+            0 -> try {
+                apiCall.getMombasaDevelopers()
+            } catch (e: Exception){
+            Log.e("NairobiJavaDataSourceLog","Error is ${e.message.toString()}")
+                null
+            }
+            1 -> try {
+                apiCall.getNairobiDevelopers()
+            } catch (e: Exception){
+            Log.e("MombasaJavaDataSourceLog","Error is ${e.message.toString()}")
+                null
+            }
+            else -> {null}
         }
         return response?.items
     }
 
-    suspend fun loadNairobiJavaDevelopers(): List<Developer?>?{
-        val apiCall = com.bintina.githubkenyans20.nairobi.api.ApiService.create()
-
-        val response = try {
-            apiCall.getNairobiJavaDevelopers()
-        } catch (e: Exception){
-            Log.e ("NairobiDataSourceLog", "Error is ${e.message.toString()}")
-            null
-        }
-
-        return response?.items
-    }
 }
