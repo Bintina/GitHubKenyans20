@@ -1,30 +1,24 @@
-package com.bintina.githubkenyans20.mombasa.controller
+package com.bintina.githubkenyans20.controller
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.bintina.githubkenyans20.DeveloperDetailsFragment
-import com.bintina.githubkenyans20.MainActivity
-import com.bintina.githubkenyans20.R
 import com.bintina.githubkenyans20.adapter.Adapter
 import com.bintina.githubkenyans20.adapter.OnDeveloperClickedListener
 import com.bintina.githubkenyans20.data.DataSource
 import com.bintina.githubkenyans20.databinding.FragmentMombasaJavaBinding
 import com.bintina.githubkenyans20.model.Developer
+import com.bintina.githubkenyans20.util.MyApp.Companion.CURRENT_JAVA_STATE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MombasaFragment: Fragment(), OnDeveloperClickedListener{
+class JavaFragment : Fragment(), OnDeveloperClickedListener {
     lateinit var adapter: Adapter
 
     private var _binding: FragmentMombasaJavaBinding? = null
@@ -38,10 +32,17 @@ class MombasaFragment: Fragment(), OnDeveloperClickedListener{
         _binding = FragmentMombasaJavaBinding.inflate(inflater, container, false)
         initializeViews()
 
-        lifecycleScope.launch(Dispatchers.IO){
-            val result = DataSource.loadMombasaJavaDevelopers()
-            withContext(Dispatchers.Main){
-                if (result != null){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val result = when (CURRENT_JAVA_STATE) {
+                0 -> DataSource.loadNairobiJavaDevelopers()
+                1 -> DataSource.loadMombasaJavaDevelopers()
+                else -> {
+                    null
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                if (result != null) {
                     adapter.developerList = result
                     adapter.notifyDataSetChanged()
                 }
@@ -55,16 +56,16 @@ class MombasaFragment: Fragment(), OnDeveloperClickedListener{
         _binding = null
     }
 
-    private fun initializeViews(){
+    private fun initializeViews() {
         adapter = Adapter()
-
+        adapter.listener = this
         binding.mombasaRecycler.adapter = adapter
     }
 
     override fun openDetails(clickedDeveloper: Developer) {
-    /*    val intent = Intent(this, DeveloperDetailsFragment::class.java)
-        intent.putExtra("clicked_developer", clickedDeveloper)
-        startActivity(intent)*/
+        /*    val intent = Intent(this, DeveloperDetailsFragment::class.java)
+            intent.putExtra("clicked_developer", clickedDeveloper)
+            startActivity(intent)*/
     }
 
     override fun openLink(link: String) {
@@ -74,15 +75,3 @@ class MombasaFragment: Fragment(), OnDeveloperClickedListener{
         startActivity(intent)
     }
 }
-/*
-override fun openDetails(clickedDeveloper: Developer) {
-    val intent = Intent(this, DeveloperDetailsFragment::class.java)
-    intent.putExtra("clicked_developer", clickedDeveloper)
-    startActivity(intent)
-
-}
-override fun openLink(link: String) {
-    val linkTextView = findViewById<TextView>(R.id.tv_link)
-    Linkify.addLinks(linkTextView, Linkify.WEB_URLS)
-    Toast.makeText(this, link, Toast.LENGTH_SHORT).show()
-}*/

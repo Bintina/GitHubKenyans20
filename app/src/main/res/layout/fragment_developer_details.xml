@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardBackgroundColor="@color/design_default_color_secondary_variant"
-    tools:context=".DeveloperDetailsFragment">
+    tools:context=".controller.DeveloperDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

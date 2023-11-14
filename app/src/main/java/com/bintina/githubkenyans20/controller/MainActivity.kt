@@ -1,16 +1,9 @@
-package com.bintina.githubkenyans20
+package com.bintina.githubkenyans20.controller
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.util.Linkify
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import com.bintina.githubkenyans20.adapter.OnDeveloperClickedListener
+import com.bintina.githubkenyans20.PagerAdapter
 import com.bintina.githubkenyans20.databinding.ActivityMainBinding
-import com.bintina.githubkenyans20.model.Developer
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
